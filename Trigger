@@ -1,0 +1,53 @@
+--select * from Products where ProductID =any(select ProductID from [Order Details] where Quantity>85)
+create trigger ddl_trg
+on database
+for
+drop_table
+as 
+print 'cannot delete table'
+rollback;
+
+create table test(
+id int,
+name nvarchar(50)
+);
+
+drop table test;
+
+create trigger dml_trig
+on test
+for 
+update
+as print 'cannot update on this table'
+rollback;
+
+insert into test values(1,'dsksl');
+
+select * from test;
+
+update test
+set name='togrul'
+where id=1
+
+insert into test values(1,'dsdkl')
+
+create trigger insert_trg
+on test
+after insert
+as
+begin
+insert into test values(34,'togrul')
+end
+
+begin transaction 
+begin try
+begin
+--commands
+end 
+commit transaction
+
+begin catch
+rollback transaction
+end catch
+
+
